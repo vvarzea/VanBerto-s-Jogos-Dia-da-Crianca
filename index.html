@@ -141,12 +141,13 @@ body::before{
 }
 .stat-badge{
   display:inline-flex;align-items:center;gap:4px;
-  background:rgba(255,215,0,0.10);
-  border:1.5px solid rgba(255,215,0,0.45);
+  background:linear-gradient(135deg,rgba(255,215,0,0.18),rgba(255,180,0,0.10));
+  border:1.5px solid rgba(255,215,0,0.60);
   border-radius:20px;padding:3px 10px;
   font-family:'Fredoka One',cursive;
   font-size:clamp(8px,2vw,10px);color:#FFD700;
   letter-spacing:0.3px;white-space:nowrap;
+  box-shadow:0 0 10px rgba(255,215,0,0.12);
 }
 
 /* ── ROBOT FLUTUANTE ── */
@@ -165,8 +166,8 @@ body::before{
   transition:opacity .35s,transform .35s cubic-bezier(.34,1.56,.64,1);
   margin-bottom:5px;
 }
-.vb-bubble::after{content:"";position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);border-left:10px solid transparent;border-right:10px solid transparent;border-top:16px solid #ff6b35;}
-.vb-bubble::before{content:"";position:absolute;bottom:-11px;left:50%;transform:translateX(-50%);border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #2a0a4e;z-index:1;}
+.vb-bubble::after{content:"";position:absolute;bottom:-17px;left:50%;transform:translateX(-50%);border-left:11px solid transparent;border-right:11px solid transparent;border-top:17px solid #ff6b35;}
+.vb-bubble::before{content:"";position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);border-left:9px solid transparent;border-right:9px solid transparent;border-top:13px solid #1a0835;z-index:1;}
 .vb-bubble.show{opacity:1;transform:translateY(0) scale(1);}
 #vb-main{width:clamp(68px,10vw,98px);cursor:pointer;animation:vbFloat 3s ease-in-out infinite;filter:drop-shadow(0 0 12px #7dd3fc);}
 #vb-main:hover{filter:drop-shadow(0 0 24px #38bdf8);}
@@ -279,7 +280,8 @@ body::before{
   display:flex;align-items:center;justify-content:center;
   line-height:1;
 }
-.game-card.destaque .card-icon{width:clamp(32px,8vw,44px);height:clamp(32px,8vw,44px);}
+.game-card.destaque .card-icon{width:clamp(40px,10vw,58px);height:clamp(40px,10vw,58px);}
+.game-card.destaque img.card-icon{width:clamp(56px,13vw,80px);height:clamp(56px,13vw,80px);}
 
 /* Comboio canvas card */
 .game-card.comboio{flex-direction:column;padding:0;overflow:hidden;gap:0;text-align:left;}
@@ -471,7 +473,7 @@ body::before{
       <div class="section-divider">📝 Palavras &amp; Letras <span class="section-count">2 jogos</span></div>
       <div class="games-grid games-grid-2">
 
-        <a class="game-card" href="https://vvarzea.github.io/VanBerto-s-Sopa-de-Letras-Dia-da-Crianca/" target="_blank"
+        <a class="game-card destaque" href="https://vvarzea.github.io/VanBerto-s-Sopa-de-Letras-Dia-da-Crianca/" target="_blank"
            style="--gc:#f97316;--gc-glow:rgba(249,115,22,0.50);">
           <div class="game-icon">
             <svg class="card-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -492,10 +494,14 @@ body::before{
               <text x="58" y="46" fill="#ffd700" font-size="11" font-weight="900" text-anchor="middle" dominant-baseline="central" font-family="Fredoka One,cursive">DIA</text>
             </svg>
           </div>
-          <div class="game-name">Sopa de Letras</div>
+          <div class="game-info">
+            <div class="game-name">Sopa de Letras</div>
+            <div class="game-desc">Encontra as palavras escondidas e celebra o Dia da Criança letra a letra!</div>
+            <span class="game-tag" style="background:#f97316;box-shadow:0 2px 8px rgba(249,115,22,0.40);">Palavras</span>
+          </div>
         </a>
 
-        <a class="game-card" href="https://vvarzea.github.io/VanBerto-s-PalavrasCruzadasDiadaCriaanca/" target="_blank"
+        <a class="game-card destaque" href="https://vvarzea.github.io/VanBerto-s-PalavrasCruzadasDiadaCriaanca/" target="_blank"
            style="--gc:#8b5cf6;--gc-glow:rgba(139,92,246,0.55);">
           <div class="game-icon">
             <svg class="card-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -526,7 +532,11 @@ body::before{
               <rect x="84" y="64" width="5" height="8" rx="1" fill="#fde68a" transform="rotate(-45 84 64)"/>
             </svg>
           </div>
-          <div class="game-name">Palavras Cruzadas</div>
+          <div class="game-info">
+            <div class="game-name">Palavras Cruzadas</div>
+            <div class="game-desc">Preenche as quadrículas com as palavras certas e completa o desafio!</div>
+            <span class="game-tag" style="background:#8b5cf6;box-shadow:0 2px 8px rgba(139,92,246,0.40);">Palavras</span>
+          </div>
         </a>
 
       </div>
@@ -570,7 +580,7 @@ body::before{
           </div>
           <div class="game-info">
             <div class="game-name">Crianças no Mundo</div>
-            <div class="game-desc">Descobre como vivem as crianças nos diferentes continentes do mundo!</div>
+            <div class="game-desc">Arrasta os países para o continente certo e descobre curiosidades incríveis de todo o mundo!</div>
             <span class="game-tag" style="background:#06b6d4;box-shadow:0 2px 8px rgba(6,182,212,0.40);">Geografia</span>
           </div>
         </a>
