@@ -149,27 +149,35 @@ body::before{
   letter-spacing:0.3px;white-space:nowrap;
 }
 
-/* VanBerto */
-.modal-vb{display:flex;align-items:center;justify-content:center;gap:clamp(14px,4vw,24px);margin:clamp(6px,2vw,12px) 0 clamp(6px,2vw,10px);position:relative;z-index:1;}
-.modal-vb-robot{width:clamp(80px,20vw,120px);flex-shrink:0;animation:vbFloat 3s ease-in-out infinite;filter:drop-shadow(0 8px 24px rgba(255,107,53,0.40)) drop-shadow(0 0 16px rgba(56,189,248,0.30));will-change:transform;}
-.modal-vb-balloon{
-  background:rgba(255,255,255,0.07);
-  border:1.5px solid rgba(255,215,0,0.40);
-  border-radius:18px;padding:clamp(10px,2.5vw,14px) clamp(12px,3vw,18px);font-family:'Fredoka One',cursive;
-  color:#FFD700;
-  font-size:clamp(12px,3vw,16px);text-align:left;position:relative;
-  max-width:min(260px,60vw);line-height:1.6;
-  transition:opacity 0.35s ease, transform 0.35s ease;
+/* ── ROBOT FLUTUANTE ── */
+.robot-wrap{position:fixed;bottom:.85rem;right:.85rem;z-index:600;display:flex;flex-direction:column;align-items:center;}
+.vb-bubble{
+  background:linear-gradient(135deg,#2a0a4e,#1a0835);
+  border:3px solid #ff6b35;
+  outline:2px solid rgba(255,215,0,0.3);outline-offset:-4px;
+  border-radius:20px;padding:9px 14px 8px;
+  box-shadow:4px 4px 0 rgba(5,2,15,0.8);
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(.72rem,2vw,.9rem);
+  color:#fff8e0;max-width:190px;min-width:130px;text-align:center;
+  pointer-events:none;position:relative;
+  opacity:0;transform:translateY(8px) scale(.88);
+  transition:opacity .35s,transform .35s cubic-bezier(.34,1.56,.64,1);
+  margin-bottom:5px;
 }
-.modal-vb-balloon.hide{opacity:0;transform:translateX(12px);}
-.modal-vb-balloon::before{
-  content:'';position:absolute;left:-11px;top:18px;
-  border-top:8px solid transparent;border-bottom:8px solid transparent;
-  border-right:12px solid rgba(255,215,0,0.40);
-}
-@keyframes vbFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
-@keyframes vbBlink{0%,92%,100%{transform:scaleY(0);}95%{transform:scaleY(1);}}
-@keyframes waveVB{0%{transform:rotate(0deg);}25%{transform:rotate(-18deg);}50%{transform:rotate(0deg);}75%{transform:rotate(-18deg);}100%{transform:rotate(0deg);}}
+.vb-bubble::after{content:"";position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);border-left:10px solid transparent;border-right:10px solid transparent;border-top:16px solid #ff6b35;}
+.vb-bubble::before{content:"";position:absolute;bottom:-11px;left:50%;transform:translateX(-50%);border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid #2a0a4e;z-index:1;}
+.vb-bubble.show{opacity:1;transform:translateY(0) scale(1);}
+#vb-main{width:clamp(68px,10vw,98px);cursor:pointer;animation:vbFloat 3s ease-in-out infinite;filter:drop-shadow(0 0 12px #7dd3fc);}
+#vb-main:hover{filter:drop-shadow(0 0 24px #38bdf8);}
+#vb-main.bounce{animation:vbPop .65s cubic-bezier(.34,1.56,.64,1),vbFloat 3s ease-in-out .65s infinite;}
+@keyframes vbFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+@keyframes vbPop{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-18px) rotate(-6deg)}70%{transform:translateY(-8px) rotate(5deg)}}
+.vb-eyelid{transform-origin:40px 23px;animation:vbBlink 5s ease-in-out infinite;}
+#vb-arm{transform-origin:65px 44px;animation:vbWave 1.5s ease-in-out infinite;}
+@keyframes vbBlink{0%,90%,100%{transform:scaleY(0)}95%{transform:scaleY(1)}}
+@keyframes vbWave{0%,100%{transform:rotate(0)}25%,75%{transform:rotate(-18deg)}}
+@media(max-width:480px){.robot-wrap{bottom:.45rem;right:.45rem;}#vb-main{width:62px;}.vb-bubble{max-width:155px;font-size:.72rem;}}
 
 /* ── GAMES SECTION ── */
 .games-section{padding:clamp(4px,1vw,6px) clamp(10px,3vw,16px) clamp(10px,3vw,16px);}
@@ -178,7 +186,7 @@ body::before{
 .section-divider{
   font-family:'Fredoka One',cursive;color:#FFD700;
   font-size:clamp(9px,2.3vw,11px);letter-spacing:1.5px;text-transform:uppercase;
-  margin:clamp(8px,2vw,12px) 0 clamp(6px,2vw,10px);
+  margin:clamp(16px,3.5vw,24px) 0 clamp(10px,2.5vw,14px);
   display:flex;align-items:center;gap:8px;
 }
 .section-divider:first-child{margin-top:2px;}
@@ -196,7 +204,7 @@ body::before{
   border-radius:20px;padding:2px 8px;color:#FFD700;white-space:nowrap;
 }
 
-.games-grid{display:grid;gap:clamp(10px,2.5vw,16px);}
+.games-grid{display:grid;gap:clamp(16px,3.5vw,24px);}
 .games-grid-1{grid-template-columns:1fr;}
 .games-grid-2{grid-template-columns:repeat(2,1fr);}
 .games-grid-3{grid-template-columns:repeat(3,1fr);}
@@ -293,7 +301,6 @@ body::before{
   .hero-icon{display:none;}
   .hero-stats{display:none;}
   .modal-hero{padding:8px 14px 8px;}
-  .modal-vb-robot{width:36px;}
 }
 </style>
 </head>
@@ -371,48 +378,6 @@ body::before{
     <!-- HERO -->
     <div class="modal-hero">
 
-      <!-- Ícone principal — balão festivo -->
-      <div class="hero-icon">
-        <svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="balloonGrad" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stop-color="#ff9a6c"/>
-              <stop offset="100%" stop-color="#e0006a"/>
-            </radialGradient>
-            <radialGradient id="balloon2" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stop-color="#ffe066"/>
-              <stop offset="100%" stop-color="#f59e00"/>
-            </radialGradient>
-            <radialGradient id="balloon3" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stop-color="#80d4ff"/>
-              <stop offset="100%" stop-color="#0080d4"/>
-            </radialGradient>
-          </defs>
-          <!-- Balão amarelo esquerda -->
-          <ellipse cx="18" cy="26" rx="11" ry="14" fill="url(#balloon2)" opacity="0.9"/>
-          <line x1="18" y1="40" x2="16" y2="56" stroke="#f59e00" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M17,40 Q18,44 19,40" fill="none" stroke="#f59e00" stroke-width="1.2"/>
-          <ellipse cx="15" cy="20" rx="2.5" ry="2" fill="rgba(255,255,255,0.45)"/>
-
-          <!-- Balão azul direita -->
-          <ellipse cx="54" cy="28" rx="11" ry="14" fill="url(#balloon3)" opacity="0.9"/>
-          <line x1="54" y1="42" x2="56" y2="58" stroke="#0080d4" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M53,42 Q54,46 55,42" fill="none" stroke="#0080d4" stroke-width="1.2"/>
-          <ellipse cx="51" cy="22" rx="2.5" ry="2" fill="rgba(255,255,255,0.45)"/>
-
-          <!-- Balão rosa centro (maior) -->
-          <ellipse cx="36" cy="22" rx="13" ry="17" fill="url(#balloonGrad)"/>
-          <line x1="36" y1="39" x2="36" y2="60" stroke="#e0006a" stroke-width="1.8" stroke-linecap="round"/>
-          <path d="M35,39 Q36,44 37,39" fill="none" stroke="#e0006a" stroke-width="1.4"/>
-          <ellipse cx="32" cy="15" rx="3" ry="2.2" fill="rgba(255,255,255,0.50)"/>
-
-          <!-- Estrelinhas decorativas -->
-          <text x="8" y="18" font-size="7" fill="#ffd700" opacity="0.9">★</text>
-          <text x="58" y="16" font-size="6" fill="#ff6b35" opacity="0.9">★</text>
-          <text x="30" y="6" font-size="5" fill="#80d4ff" opacity="0.8">✦</text>
-        </svg>
-      </div>
-
       <div class="modal-title">VanBerto's — Dia da Criança</div>
       <div class="modal-sub">Aprende a brincar • 1 de Junho é o teu dia! 🎉</div>
 
@@ -424,36 +389,6 @@ body::before{
         <span class="stat-badge">🌍 Mundo</span>
       </div>
 
-      <!-- VanBerto -->
-      <div class="modal-vb">
-        <div class="modal-vb-robot">
-          <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="vbBodyGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#e5f2ff"/><stop offset="100%" stop-color="#bfdbfe"/>
-              </linearGradient>
-              <linearGradient id="vbVisorGrad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#38bdf8"/>
-              </linearGradient>
-            </defs>
-            <circle cx="40" cy="40" r="32" fill="rgba(147,197,253,0.28)"/>
-            <rect x="18" y="30" width="44" height="32" rx="14" fill="url(#vbBodyGrad)"/>
-            <circle cx="40" cy="46" r="7" fill="#9ca3af"/>
-            <rect x="22" y="10" width="36" height="26" rx="13" fill="url(#vbBodyGrad)"/>
-            <rect x="26" y="15" width="28" height="16" rx="8" fill="url(#vbVisorGrad)"/>
-            <circle cx="33" cy="23" r="2.5" fill="#0f172a"/><circle cx="47" cy="23" r="2.5" fill="#0f172a"/>
-            <circle cx="34.2" cy="21.5" r="1" fill="white" opacity="0.8"/><circle cx="48.2" cy="21.5" r="1" fill="white" opacity="0.8"/>
-            <line x1="40" y1="10" x2="40" y2="4" stroke="#38bdf8" stroke-width="2"/><circle cx="40" cy="3" r="2.5" fill="#38bdf8"/>
-            <rect x="12" y="34" width="6" height="20" rx="3" fill="#e5e7eb"/>
-            <rect x="62" y="34" width="6" height="20" rx="3" fill="#e5e7eb"
-              style="transform-origin:65px 44px;animation:waveVB 1.5s ease-in-out infinite;"/>
-            <rect x="22" y="58" width="12" height="8" rx="3" fill="#1f2937"/><rect x="46" y="58" width="12" height="8" rx="3" fill="#1f2937"/>
-          </svg>
-        </div>
-        <div class="modal-vb-balloon" id="vbMsg">
-          Olá! Hoje é o teu dia!<br>Vamos jogar juntos? 🎈
-        </div>
-      </div>
     </div>
 
     <!-- JOGOS -->
@@ -701,31 +636,69 @@ body::before{
   </div>
 </div>
 
+<!-- ROBOT FLUTUANTE -->
+<div class="robot-wrap">
+  <div class="vb-bubble" id="vbBubble">Olá! 😊</div>
+  <svg id="vb-main" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" role="button" tabindex="0" aria-label="VanBerto — clica para falar">
+    <defs>
+      <linearGradient id="bG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e5f2ff"/><stop offset="100%" stop-color="#bfdbfe"/></linearGradient>
+      <linearGradient id="vG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#38bdf8"/></linearGradient>
+    </defs>
+    <circle cx="40" cy="40" r="34" fill="rgba(147,197,253,0.35)"/>
+    <rect x="18" y="30" width="44" height="32" rx="14" fill="url(#bG)"/>
+    <circle cx="40" cy="46" r="7" fill="#9ca3af"/>
+    <rect x="22" y="10" width="36" height="26" rx="13" fill="url(#bG)"/>
+    <rect x="26" y="15" width="28" height="16" rx="8" fill="url(#vG)"/>
+    <rect class="vb-eyelid" x="26" y="15" width="28" height="16" rx="8" fill="#e5f2ff" opacity="0.9"/>
+    <circle cx="33" cy="23" r="2.5" fill="#0f172a"/><circle cx="47" cy="23" r="2.5" fill="#0f172a"/>
+    <circle cx="34.2" cy="21.5" r="1" fill="white" opacity="0.8"/><circle cx="48.2" cy="21.5" r="1" fill="white" opacity="0.8"/>
+    <line x1="40" y1="10" x2="40" y2="4" stroke="#38bdf8" stroke-width="2"/><circle cx="40" cy="3" r="2.5" fill="#38bdf8"/>
+    <rect x="12" y="34" width="6" height="20" rx="3" fill="#e5e7eb"/>
+    <rect id="vb-arm" x="62" y="34" width="6" height="20" rx="3" fill="#e5e7eb"/>
+    <rect x="22" y="58" width="12" height="8" rx="3" fill="#1f2937"/><rect x="46" y="58" width="12" height="8" rx="3" fill="#1f2937"/>
+  </svg>
+</div>
+
 <script>
 // Mensagens do VanBerto para o Dia da Criança
 const msgs = [
-  "Olá! Hoje é o teu dia!<br>Vamos jogar juntos? 🎈",
-  "Feliz Dia da Criança!<br>O VanBerto's celebra contigo! 🎉",
-  "Pronto para uma aventura?<br>Escolhe o teu jogo! 🚀",
-  "A brincar também se aprende!<br>Vem explorar! 🌟",
-  "8 jogos especiais<br>para o teu dia! 🎮",
-  "Corrida, mundo e puzzles —<br>há tudo aqui! 🏎️🌍",
-  "Sopa de letras, puzzle<br>e muito mais! 🧩",
-  "O comboio está a partir!<br>Não percas o comboio! 🚂",
-  "Palavras cruzadas<br>para os mais espertos! 📝",
-  "Missão aceite?<br>O VanBerto's conta contigo! 🎯",
-  "1 de Junho é o teu dia!<br>Aproveita cada segundo! 🎊",
+  "Olá! Hoje é o teu dia! 🎈",
+  "Feliz Dia da Criança! 🎉",
+  "Escolhe o teu jogo! 🚀",
+  "A brincar também se aprende! 🌟",
+  "8 jogos especiais para ti! 🎮",
+  "Corrida, mundo e puzzles! 🏎️🌍",
+  "Sopa de letras e muito mais! 🧩",
+  "O comboio está a partir! 🚂",
+  "Palavras cruzadas! 📝",
+  "O VanBerto's conta contigo! 🎯",
+  "1 de Junho é o teu dia! 🎊",
 ];
-let idx = 0;
-const el = document.getElementById('vbMsg');
+let bubT = null;
+function bub(msg) {
+  clearTimeout(bubT);
+  const el = document.getElementById('vbBubble');
+  const rb = document.getElementById('vb-main');
+  el.textContent = msg;
+  el.classList.add('show');
+  rb.classList.remove('bounce');
+  void rb.offsetWidth;
+  rb.classList.add('bounce');
+  bubT = setTimeout(() => el.classList.remove('show'), 4500);
+}
+
+// Rodar mensagens automaticamente
+let msgIdx = 0;
+setTimeout(() => bub(msgs[msgIdx]), 1200);
 setInterval(() => {
-  el.classList.add('hide');
-  setTimeout(() => {
-    idx = (idx+1) % msgs.length;
-    el.innerHTML = msgs[idx];
-    el.classList.remove('hide');
-  }, 360);
-}, 3400);
+  msgIdx = (msgIdx + 1) % msgs.length;
+  bub(msgs[msgIdx]);
+}, 5000);
+
+// Clicar no robot
+document.getElementById('vb-main').addEventListener('click', () => {
+  bub(msgs[Math.floor(Math.random() * msgs.length)]);
+});
 
 // Animação staggered dos cards
 document.querySelectorAll('.game-card').forEach((c,i) => {
