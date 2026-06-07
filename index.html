@@ -182,7 +182,7 @@ body::before{
 #vb-arm{transform-origin:65px 44px;animation:vbWave 1.5s ease-in-out infinite;}
 @keyframes vbBlink{0%,90%,100%{transform:scaleY(0)}95%{transform:scaleY(1)}}
 @keyframes vbWave{0%,100%{transform:rotate(0)}25%,75%{transform:rotate(-18deg)}}
-@media(max-width:480px){.robot-wrap{bottom:.45rem;right:.45rem;}#vb-main{width:52px;}.vb-bubble{max-width:155px;font-size:.72rem;}}
+@media(max-width:480px){.robot-wrap{bottom:.45rem;right:.45rem;}#vb-main{width:52px;}.vb-bubble{max-width:155px;font-size:.72rem;}.modal-footer{padding-right:68px;}}
 
 /* ── GAMES SECTION ── */
 .games-section{
@@ -1051,6 +1051,65 @@ document.querySelectorAll('.game-card').forEach((c,i) => {
   observer.observe(cv);
 
   rafId = requestAnimationFrame(loop);
+})();
+
+/* ══ DRAG DA JANELA ══ */
+(function(){
+  const wrap = document.querySelector('.modal-wrap');
+  const handle = document.querySelector('.modal-hero');
+  if(!wrap || !handle) return;
+
+  // Preparar posicionamento absoluto a partir da posição atual
+  function initPosition(){
+    const r = wrap.getBoundingClientRect();
+    wrap.style.position = 'fixed';
+    wrap.style.left = r.left + 'px';
+    wrap.style.top  = r.top  + 'px';
+    wrap.style.margin = '0';
+    document.body.style.alignItems = 'unset';
+    document.body.style.justifyContent = 'unset';
+  }
+
+  let dragging = false, ox = 0, oy = 0, init = false;
+
+  handle.style.cursor = 'grab';
+
+  handle.addEventListener('mousedown', e => {
+    if(!init){ initPosition(); init = true; }
+    dragging = true;
+    const r = wrap.getBoundingClientRect();
+    ox = e.clientX - r.left;
+    oy = e.clientY - r.top;
+    handle.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+
+  handle.addEventListener('touchstart', e => {
+    if(!init){ initPosition(); init = true; }
+    dragging = true;
+    const t = e.touches[0];
+    const r = wrap.getBoundingClientRect();
+    ox = t.clientX - r.left;
+    oy = t.clientY - r.top;
+    e.preventDefault();
+  }, {passive:false});
+
+  document.addEventListener('mousemove', e => {
+    if(!dragging) return;
+    wrap.style.left = (e.clientX - ox) + 'px';
+    wrap.style.top  = (e.clientY - oy) + 'px';
+  });
+
+  document.addEventListener('touchmove', e => {
+    if(!dragging) return;
+    const t = e.touches[0];
+    wrap.style.left = (t.clientX - ox) + 'px';
+    wrap.style.top  = (t.clientY - oy) + 'px';
+    e.preventDefault();
+  }, {passive:false});
+
+  document.addEventListener('mouseup',  () => { dragging = false; handle.style.cursor = 'grab'; });
+  document.addEventListener('touchend', () => { dragging = false; });
 })();
 
 </script>
