@@ -309,49 +309,7 @@ body::before{
   .modal-hero{padding:6px 14px 5px;}
 }
 
-/* ── BOTÕES DE SCROLL ── */
-.scroll-btns{
-  position:fixed;
-  right:1rem;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:700;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  pointer-events:auto;
-}
-.scroll-btn{
-  width:clamp(34px,4vw,46px);
-  height:clamp(34px,4vw,46px);
-  border-radius:50%;
-  border:2px solid rgba(255,215,0,0.5);
-  background:linear-gradient(135deg,#2a0a4e,#1a0835);
-  color:#FFD700;
-  font-size:clamp(14px,2vw,20px);
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 0 12px rgba(255,107,53,0.30), 4px 4px 0 rgba(0,0,0,0.4);
-  transition:transform 0.15s cubic-bezier(.34,1.56,.64,1), box-shadow 0.15s;
-  user-select:none;
-  -webkit-tap-highlight-color:transparent;
-}
-.scroll-btn:hover, .scroll-btn:focus{
-  transform:scale(1.12);
-  box-shadow:0 0 22px rgba(255,215,0,0.45), 4px 4px 0 rgba(0,0,0,0.4);
-  outline:none;
-}
-.scroll-btn:active{
-  transform:scale(0.95);
-}
-@media(max-width:480px){
-  .scroll-btns{right:0.4rem; gap:6px;}
-}
-@media(max-width:360px){
-  .scroll-btns{display:none;}
-}
+
 </style>
 </head>
 <body>
@@ -631,12 +589,6 @@ body::before{
   </div>
 </div>
 
-<!-- BOTÕES DE SCROLL -->
-<div class="scroll-btns" id="scrollBtns">
-  <button class="scroll-btn" id="scrollUp" aria-label="Mover para cima" title="Subir">▲</button>
-  <button class="scroll-btn" id="scrollDown" aria-label="Mover para baixo" title="Descer">▼</button>
-</div>
-
 <!-- ROBOT FLUTUANTE -->
 <div class="robot-wrap">
   <div class="vb-bubble" id="vbBubble">Olá! 😊</div>
@@ -707,57 +659,6 @@ document.querySelectorAll('.game-card').forEach((c,i) => {
   c.style.transition=`opacity 0.4s ${i*0.07}s, transform 0.4s ${i*0.07}s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s, border-color 0.2s`;
   setTimeout(()=>{ c.style.opacity='1'; c.style.transform='translateY(0)'; }, 80+i*60);
 });
-
-// ── SCROLL BUTTONS ──────────────────────────────────────────────
-(function(){
-  const card = document.querySelector('.card');
-  if(!card) return;
-
-  const STEP = 80; // px por clique
-
-  function getScrollable(){
-    // O elemento com scroll é o .card (overflow:hidden) — mas o conteúdo
-    // que queremos scrollar é o .games-section. Procuramos o primeiro
-    // elemento com overflow que seja descendente da .modal-wrap.
-    // Na prática, o .card tem overflow:hidden; o scroll é feito via
-    // wrapper. Usamos document.scrollingElement ou o próprio card.
-    return card;
-  }
-
-  // Verifica se o card tem scroll interno; se não, tenta o body/window
-  function scrollBy(delta){
-    // Primeiro tenta scroll no card
-    const c = document.querySelector('.card');
-    if(c && c.scrollHeight > c.clientHeight){
-      c.scrollBy({top: delta, behavior:'smooth'});
-      return;
-    }
-    // Fallback: scroll na window
-    window.scrollBy({top: delta, behavior:'smooth'});
-  }
-
-  document.getElementById('scrollUp').addEventListener('click', () => scrollBy(-STEP));
-  document.getElementById('scrollDown').addEventListener('click', () => scrollBy(STEP));
-
-  // Mostrar/ocultar botões conforme necessário
-  function updateBtns(){
-    const btns = document.getElementById('scrollBtns');
-    if(!btns) return;
-    const c = document.querySelector('.card');
-    const hasScroll = (c && c.scrollHeight > c.clientHeight + 4) ||
-                      (document.body.scrollHeight > window.innerHeight + 4);
-    btns.style.display = hasScroll ? 'flex' : 'none';
-  }
-
-  // Adicionar overflow scroll ao .card para o scroll funcionar
-  if(card){
-    card.style.overflowY = 'auto';
-    card.style.overflowX = 'hidden';
-  }
-
-  updateBtns();
-  window.addEventListener('resize', updateBtns);
-})();
 
 (function(){
   const cv = document.getElementById('trainCanvasDC');
