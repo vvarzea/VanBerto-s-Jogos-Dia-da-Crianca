@@ -73,7 +73,7 @@ body::before{
   background:linear-gradient(155deg,#1a0828,#0e0520);
   border-radius:clamp(12px,1.5vw,24px);overflow:hidden;
   display:flex;flex-direction:column;
-  flex:1;min-height:0;
+  flex:1;min-height:0;overflow:clip;
   box-shadow:
     0 0 0 3px #ff6b35, 0 0 0 6px #ffd700, 10px 10px 0 rgba(0,0,0,0.45), 0 0 60px rgba(255,107,53,0.25),
     0 0 50px rgba(100,80,255,0.15),
@@ -189,7 +189,15 @@ body::before{
   padding:min(0.6vh,6px) min(1.8vw,24px) min(0.8vh,8px);
   flex:1;min-height:0;
   display:flex;flex-direction:column;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,107,53,0.45) transparent;
 }
+.games-section::-webkit-scrollbar{width:5px;}
+.games-section::-webkit-scrollbar-track{background:transparent;}
+.games-section::-webkit-scrollbar-thumb{background:rgba(255,107,53,0.45);border-radius:10px;}
+.games-section::-webkit-scrollbar-thumb:hover{background:rgba(255,215,0,0.55);}
 
 /* Section divider */
 .section-divider{
