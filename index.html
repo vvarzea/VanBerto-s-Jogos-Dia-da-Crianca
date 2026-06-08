@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0058)https://viewport-adapt.preview.emergentagent.com/jogo.html -->
+<!-- saved from url=(0070)https://adaptive-game-ui.preview.emergentagent.com/download/index.html -->
 <html lang="pt" class="pc-fit"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>VanBerto's — Dia da Criança 🎉</title>
-<link href="./index_files/css2" rel="stylesheet">
+<link href="./VanBerto&#39;s — Dia da Criança 🎉_files/css2" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{width:100%;height:100%;overflow:hidden;}
@@ -323,17 +323,22 @@ body::before{
 </style>
 <style id="pc-scale-style">
     html.pc-fit, body.pc-fit { overflow: hidden !important; }
-    body.pc-fit { padding: 0 !important; align-items: flex-start !important; justify-content: flex-start !important; }
+    body.pc-fit {
+      padding: 0 !important;
+      align-items: flex-start !important;
+      justify-content: flex-start !important;
+    }
     body.pc-fit .modal-wrap {
-      max-height: none !important;
-      height: auto !important;
       width: 1400px !important;
+      height: auto !important;
+      max-width: none !important;
+      max-height: none !important;
       margin: 0 !important;
     }
-    /* Mantém overflow:hidden no .card para que o border-radius continue
-       a recortar correctamente o conteúdo interno (sem isto, as pontas
-       arredondadas dos anéis do card desalinham-se das laterais). */
-    body.pc-fit .games-section { overflow: visible !important; max-height: none !important; }
+    body.pc-fit .games-section {
+      overflow: visible !important;
+      max-height: none !important;
+    }
   </style></head>
 <body class="pc-fit">
 
@@ -403,7 +408,7 @@ body::before{
 <div class="confetti-piece" style="left:77%;background:#c77dff;animation-duration:6.5s;animation-delay:4s;border-radius:50%;"></div>
 <div class="confetti-piece" style="left:91%;background:#ff6b35;animation-duration:7.5s;animation-delay:1s;border-radius:2px;"></div>
 
-<div class="modal-wrap" style="transform: translate(-50%, -50%) scale(1.04145); position: fixed; transform-origin: center center; top: 50%; left: 50%;">
+<div class="modal-wrap" style="transform: translate(-50%, -50%) scale(1.17143); position: fixed; transform-origin: center center; top: 50%; left: 50%;">
   <div class="card">
 
     <!-- HERO -->
@@ -429,7 +434,7 @@ body::before{
       <div class="section-divider">🚂 Comboio <span class="section-count">1 jogo</span></div>
       <div class="games-grid games-grid-1">
         <a class="game-card comboio" href="https://vvarzea.github.io/VanBerto-s-ComboioDiadaCrianca/" target="_blank" style="--gc: #ff6eb4; --gc-glow: rgba(255,110,180,0.45); opacity: 1; transform: translateY(0px); transition: opacity 0.4s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s, border-color 0.2s;">
-          <canvas id="trainCanvasDC" class="train-canvas-dc" width="2013" height="442" style="width: 1342px; height: 295px;"></canvas>
+          <canvas id="trainCanvasDC" class="train-canvas-dc" width="2028" height="264" style="width: 1352px; height: 176px;"></canvas>
           <div class="comboio-info">
             <div class="game-name" style="font-size:clamp(13px,3.8vw,17px);">Comboio do Dia da Criança</div>
             <div class="game-desc">Embarca numa viagem especial e celebra o 1 de Junho a bordo do comboio do VanBerto's!</div>
@@ -608,7 +613,7 @@ body::before{
 
 <!-- ROBOT FLUTUANTE -->
 <div class="robot-wrap">
-  <div class="vb-bubble show" id="vbBubble">A brincar também se aprende! 🌟</div>
+  <div class="vb-bubble show" id="vbBubble">Escolhe o teu jogo! 🚀</div>
   <svg id="vb-main" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" role="button" tabindex="0" aria-label="VanBerto — clica para falar" class="bounce">
     <defs>
       <lineargradient id="bG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e5f2ff"></stop><stop offset="100%" stop-color="#bfdbfe"></stop></lineargradient>
@@ -673,44 +678,51 @@ document.getElementById('vb-main').addEventListener('click', () => {
 /* ──────────────────────────────────────────────────────────────
    ESCALA RESPONSIVA PC  (referência 1920×1080)
    - Só atua quando window.innerWidth >= 768 (PC / janela pequena de PC)
-   - Mantém intacto o comportamento em smartphone
-   - Não altera a lógica do jogo, apenas redimensiona visualmente
-   - Garante que TUDO fica visível dentro do ecrã (sem scroll interno)
+   - NÃO altera o comportamento em smartphone (< 768 px)
+   - NÃO altera a lógica/mecânica do jogo, apenas a escala visual
    ────────────────────────────────────────────────────────────── */
 (function(){
   const REF_W = 1920;
   const REF_H = 1080;
+  const DESIGN_W = 1400;   // largura natural do modal em modo PC
   const PC_BREAKPOINT = 768;
 
-  // Estilos injetados (modo PC) — desligam o scroll interno e o max-height
-  // do modal para que o conteúdo tome a sua altura natural completa,
-  // permitindo medi-lo e aplicar a escala que faça caber tudo no ecrã.
   const styleEl = document.createElement('style');
   styleEl.id = 'pc-scale-style';
   styleEl.textContent = `
     html.pc-fit, body.pc-fit { overflow: hidden !important; }
-    body.pc-fit { padding: 0 !important; align-items: flex-start !important; justify-content: flex-start !important; }
+    body.pc-fit {
+      padding: 0 !important;
+      align-items: flex-start !important;
+      justify-content: flex-start !important;
+    }
     body.pc-fit .modal-wrap {
-      max-height: none !important;
+      width: ${DESIGN_W}px !important;
       height: auto !important;
-      width: 1400px !important;
+      max-width: none !important;
+      max-height: none !important;
       margin: 0 !important;
     }
-    /* Mantém overflow:hidden no .card para que o border-radius continue
-       a recortar correctamente o conteúdo interno (sem isto, as pontas
-       arredondadas dos anéis do card desalinham-se das laterais). */
-    body.pc-fit .games-section { overflow: visible !important; max-height: none !important; }
+    body.pc-fit .games-section {
+      overflow: visible !important;
+      max-height: none !important;
+    }
   `;
   document.head.appendChild(styleEl);
 
+  let _busy = false;
+  let _dispatched = false;
   function applyPcScale(){
+    if (_busy) return;
+    _busy = true;
+
     const w = window.innerWidth;
     const h = window.innerHeight;
     const wrap = document.querySelector('.modal-wrap');
-    if (!wrap) return;
+    if (!wrap){ _busy = false; return; }
 
-    // Smartphone: limpa overrides e devolve o controlo ao CSS responsivo original
     if (w < PC_BREAKPOINT){
+      // ── SMARTPHONE: devolve o controlo ao CSS responsivo original ──
       document.body.classList.remove('pc-fit');
       document.documentElement.classList.remove('pc-fit');
       wrap.style.transform = '';
@@ -718,40 +730,47 @@ document.getElementById('vb-main').addEventListener('click', () => {
       wrap.style.top = '';
       wrap.style.left = '';
       wrap.style.transformOrigin = '';
-      return;
+      wrap.style.width = '';
+      wrap.style.height = '';
+    } else {
+      // ── PC: medir conteúdo natural e fazer caber TUDO no ecrã ──
+      document.body.classList.add('pc-fit');
+      document.documentElement.classList.add('pc-fit');
+
+      // Estado temporário para medir altura natural sem distorção
+      wrap.style.transform = 'none';
+      wrap.style.position = 'static';
+      wrap.style.top = '';
+      wrap.style.left = '';
+      void wrap.offsetWidth;
+      const natW = wrap.offsetWidth || DESIGN_W;
+      const natH = wrap.offsetHeight || REF_H;
+
+      // Escala que faz o conteúdo NATURAL caber sempre na janela
+      // (sem 0.98 de margem nem cap pela referência → aproveita 100% do ecrã)
+      const scale = Math.min(w / natW, h / natH);
+
+      wrap.style.position = 'fixed';
+      wrap.style.top = '50%';
+      wrap.style.left = '50%';
+      wrap.style.transformOrigin = 'center center';
+      wrap.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
 
-    // PC: prepara medição do tamanho natural do modal
-    document.body.classList.add('pc-fit');
-    document.documentElement.classList.add('pc-fit');
-    wrap.style.transform = 'none';
-    wrap.style.position = 'static';
-    wrap.style.top = '';
-    wrap.style.left = '';
+    _busy = false;
 
-    // Mede dimensões naturais (sem clipping)
-    // Força reflow para garantir leitura atualizada
-    void wrap.offsetWidth;
-    const natW = wrap.offsetWidth;
-    const natH = wrap.offsetHeight;
-
-    // Escala que faz caber TUDO (largura e altura) no ecrã
-    const fitScale = Math.min(w / natW, h / natH);
-    // Limite superior pela referência 1920×1080 (não ampliar acima do design)
-    const refScale = Math.min(w / REF_W, h / REF_H);
-    let scale = Math.min(fitScale, refScale);
-    // Pequena margem visual (2%) para o glow/sombra não tocarem nos bordos
-    scale = scale * 0.98;
-
-    // Aplica transform + centra no ecrã
-    wrap.style.position = 'fixed';
-    wrap.style.top = '50%';
-    wrap.style.left = '50%';
-    wrap.style.transformOrigin = 'center center';
-    wrap.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    // Re-dispara um resize para o canvas do comboio recalcular com base na
+    // nova largura real do card-pai. _dispatched limita a 2 passagens
+    // para evitar loop infinito.
+    if (!_dispatched) {
+      _dispatched = true;
+      requestAnimationFrame(() => {
+        window.dispatchEvent(new Event('resize'));
+        _dispatched = false;
+      });
+    }
   }
 
-  // Primeira aplicação após DOM estar pronto
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
     setTimeout(applyPcScale, 0);
   } else {
@@ -777,7 +796,7 @@ document.querySelectorAll('.game-card').forEach((c,i) => {
 
   function resizeTrain(){
     const w = cv.parentElement.clientWidth||660;
-    const h = Math.round(w*0.22);
+    const h = Math.round(w*0.13);
     cv.width = w*DPR; cv.height = h*DPR;
     cv.style.width = w+'px'; cv.style.height = h+'px';
     ctx.setTransform(DPR,0,0,DPR,0,0);
@@ -1165,7 +1184,8 @@ document.querySelectorAll('.game-card').forEach((c,i) => {
 
 
 </script>
-<script defer="" src="./index_files/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;7f7b0fd8732c4326aae4b9d58d5c514a&quot;,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+<script defer="" src="./VanBerto&#39;s — Dia da Criança 🎉_files/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;7f7b0fd8732c4326aae4b9d58d5c514a&quot;,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
 
 
+<script defer="" src="./VanBerto&#39;s — Dia da Criança 🎉_files/v833ccba57c9e4d2798f2e76cebdd09a11778172276447(1)" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;7f7b0fd8732c4326aae4b9d58d5c514a&quot;,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
 </body></html>
