@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- saved from url=(0062)https://linhas-cortas.preview.emergentagent.com/vanbertos.html -->
-<html lang="pt" class="pc-fit"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="pt"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>VanBerto's — Dia da Criança 🎉</title>
@@ -321,24 +321,7 @@ body::before{
 
 
 </style>
-<style id="pc-scale-style">
-    html.pc-fit, body.pc-fit { overflow: hidden !important; }
-    body.pc-fit {
-      padding: 0 !important;
-      align-items: flex-start !important;
-      justify-content: flex-start !important;
-    }
-    body.pc-fit .modal-wrap {
-      width: 1400px !important;
-      height: auto !important;
-      max-width: none !important;
-      max-height: none !important;
-      margin: 0 !important;
-    }
-    body.pc-fit .games-section {
-      overflow: visible !important;
-      max-height: none !important;
-    }
+<style id="fs-btn-style">
   /* ── BOTÃO ECRÃ INTEIRO ── */
   #fs-btn{
     position:fixed; top:14px; right:14px; z-index:9999;
@@ -363,26 +346,10 @@ body::before{
   #fs-btn.is-fs .ico-enter{ display:none; }
   #fs-btn.is-fs .ico-exit{ display:block; }
   @media (max-width: 820px){ #fs-btn{ display:none; } }
-  </style><style id="pc-scale-style">
-    html.pc-fit, body.pc-fit { overflow: hidden !important; }
-    body.pc-fit {
-      padding: 0 !important;
-      align-items: flex-start !important;
-      justify-content: flex-start !important;
-    }
-    body.pc-fit .modal-wrap {
-      width: 1400px !important;
-      height: auto !important;
-      max-width: none !important;
-      max-height: none !important;
-      margin: 0 !important;
-    }
-    body.pc-fit .games-section {
-      overflow: visible !important;
-      max-height: none !important;
-    }
-  </style></head>
-<body class="pc-fit">
+</style>
+<!-- pc-scale-style injetado pelo JS abaixo -->
+</head>
+<body>
 
 <!-- Botão ecrã inteiro (PC) -->
 <button id="fs-btn" type="button" aria-label="Ecrã inteiro" title="Ecrã inteiro (F11)" class="">
@@ -486,7 +453,7 @@ body::before{
       <div class="section-divider">🚂 Comboio <span class="section-count">1 jogo</span></div>
       <div class="games-grid games-grid-1">
         <a class="game-card comboio" href="https://vvarzea.github.io/VanBerto-s-ComboioDiadaCrianca/" target="_blank" style="--gc: #ff6eb4; --gc-glow: rgba(255,110,180,0.45); opacity: 1; transform: translateY(0px); transition: opacity 0.4s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s, border-color 0.2s;">
-          <canvas id="trainCanvasDC" class="train-canvas-dc" width="2028" height="264" style="width: 1352px; height: 176px;"></canvas>
+          <canvas id="trainCanvasDC" class="train-canvas-dc" width="320" height="42"></canvas>
           <div class="comboio-info">
             <div class="game-name" style="font-size:clamp(13px,3.8vw,17px);">Comboio do Dia da Criança</div>
             <div class="game-desc">Embarca numa viagem especial e celebra o 1 de Junho a bordo do comboio do VanBerto's!</div>
@@ -734,13 +701,18 @@ document.getElementById('vb-main').addEventListener('click', () => {
    - NÃO altera a lógica/mecânica do jogo, apenas a escala visual
    ────────────────────────────────────────────────────────────── */
 (function(){
-  const REF_W = 1920;
-  const REF_H = 1080;
-  const DESIGN_W = 1400;   // largura natural do modal em modo PC
-  const PC_BREAKPOINT = 768;
+  const DESIGN_W    = 1400;   // largura natural do modal em modo PC
+  const REF_W       = 1920;   // resolução de referência largura
+  const REF_H       = 1080;   // resolução de referência altura
+  const PC_MIN      = 768;    // breakpoint smartphone/PC
 
-  const styleEl = document.createElement('style');
-  styleEl.id = 'pc-scale-style';
+  /* ── CSS estático para modo pc-fit ── */
+  let styleEl = document.getElementById('pc-scale-style');
+  if (!styleEl) {
+    styleEl = document.createElement('style');
+    styleEl.id = 'pc-scale-style';
+    document.head.appendChild(styleEl);
+  }
   styleEl.textContent = `
     html.pc-fit, body.pc-fit { overflow: hidden !important; }
     body.pc-fit {
@@ -750,78 +722,78 @@ document.getElementById('vb-main').addEventListener('click', () => {
     }
     body.pc-fit .modal-wrap {
       width: ${DESIGN_W}px !important;
-      height: auto !important;
       max-width: none !important;
-      max-height: none !important;
       margin: 0 !important;
     }
     body.pc-fit .games-section {
-      overflow: visible !important;
-      max-height: none !important;
+      overflow-y: auto !important;
     }
   `;
-  document.head.appendChild(styleEl);
 
-  let _busy = false;
-  let _dispatched = false;
-  function applyPcScale(){
-    if (_busy) return;
-    _busy = true;
+  let _raf = null;
 
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+  function applyPcScale() {
+    if (_raf) return;
+    _raf = requestAnimationFrame(() => {
+      _raf = null;
+      _doApply();
+    });
+  }
+
+  function _doApply() {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
     const wrap = document.querySelector('.modal-wrap');
-    if (!wrap){ _busy = false; return; }
+    if (!wrap) return;
 
-    if (w < PC_BREAKPOINT){
-      // ── SMARTPHONE: devolve o controlo ao CSS responsivo original ──
+    if (vw < PC_MIN) {
+      /* ── SMARTPHONE: devolve controlo ao CSS responsivo ── */
       document.body.classList.remove('pc-fit');
       document.documentElement.classList.remove('pc-fit');
-      wrap.style.transform = '';
-      wrap.style.position = '';
-      wrap.style.top = '';
-      wrap.style.left = '';
-      wrap.style.transformOrigin = '';
-      wrap.style.width = '';
-      wrap.style.height = '';
+      wrap.style.cssText = '';
     } else {
-      // ── PC: escala responsiva com referência fixa 1920×1080 ──
-      // Fórmula: Math.min(innerWidth/1920, innerHeight/1080)
-      // Cap em 1 → nunca aumenta acima do tamanho real (evita corte topo/fundo)
+      /* ── PC: escala proporcional, nunca corta ── */
       document.body.classList.add('pc-fit');
       document.documentElement.classList.add('pc-fit');
 
-      const scale = Math.min(w / 1920, h / 1080, 1);
+      /* escala: menor dos dois rácios, sem ultrapassar 1 (não amplia) */
+      const scale = Math.min(vw / REF_W, vh / REF_H, 1);
 
-      wrap.style.position = 'fixed';
-      wrap.style.top = '50%';
-      wrap.style.left = '50%';
+      /* altura máxima visível após escala */
+      const maxH = Math.floor(vh / scale);
+
+      wrap.style.position        = 'fixed';
+      wrap.style.top             = '50%';
+      wrap.style.left            = '50%';
       wrap.style.transformOrigin = 'center center';
-      wrap.style.transform = `translate(-50%, -50%) scale(${scale})`;
+      wrap.style.transform       = `translate(-50%, -50%) scale(${scale})`;
+      wrap.style.width           = DESIGN_W + 'px';
+      wrap.style.maxHeight       = maxH + 'px';
+      wrap.style.height          = 'auto';
     }
 
-    _busy = false;
-
-    // Re-dispara um resize para o canvas do comboio recalcular com base na
-    // nova largura real do card-pai. _dispatched limita a 2 passagens
-    // para evitar loop infinito.
-    if (!_dispatched) {
-      _dispatched = true;
-      requestAnimationFrame(() => {
-        window.dispatchEvent(new Event('resize'));
-        _dispatched = false;
-      });
-    }
+    /* Notifica o canvas do comboio para recalcular */
+    window.dispatchEvent(new Event('_trainResize'));
   }
 
-  if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    setTimeout(applyPcScale, 0);
-  } else {
+  /* Arranque */
+  if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', applyPcScale);
+  } else {
+    applyPcScale();
   }
   window.addEventListener('load', applyPcScale);
   window.addEventListener('resize', applyPcScale);
   window.addEventListener('orientationchange', applyPcScale);
+
+  /* Fullscreen: re-escala após o browser actualizar as dimensões */
+  function onFsChange() {
+    setTimeout(applyPcScale, 60);
+    setTimeout(applyPcScale, 220);
+  }
+  document.addEventListener('fullscreenchange',       onFsChange);
+  document.addEventListener('webkitfullscreenchange', onFsChange);
+  document.addEventListener('msfullscreenchange',     onFsChange);
 })();
 
 // ── BOTÃO ECRÃ INTEIRO ──
@@ -863,7 +835,7 @@ document.getElementById('vb-main').addEventListener('click', () => {
   document.addEventListener('webkitfullscreenchange', syncIcon);
   document.addEventListener('msfullscreenchange', syncIcon);
 
-  // Esconde a API se o browser não suportar de todo
+  // Esconde o botão se o browser não suportar fullscreen
   if (!(document.documentElement.requestFullscreen
      || document.documentElement.webkitRequestFullscreen
      || document.documentElement.msRequestFullscreen)) {
@@ -885,14 +857,18 @@ document.querySelectorAll('.game-card').forEach((c,i) => {
   const DPR = Math.min(window.devicePixelRatio||1,2);
 
   function resizeTrain(){
-    const w = cv.parentElement.clientWidth||660;
-    const h = Math.round(w*0.13);
+    const w = Math.max(cv.parentElement.clientWidth||0, 320);
+    const h = Math.max(Math.round(w*0.15), 80);
     cv.width = w*DPR; cv.height = h*DPR;
     cv.style.width = w+'px'; cv.style.height = h+'px';
     ctx.setTransform(DPR,0,0,DPR,0,0);
   }
   resizeTrain();
-  window.addEventListener('resize', resizeTrain);
+  // Re-aplicar depois do layout estar estável (crítico em smartphone e em resize de PC)
+  setTimeout(resizeTrain, 100);
+  setTimeout(resizeTrain, 400);
+  window.addEventListener('_trainResize', resizeTrain);
+  window.addEventListener('orientationchange', () => setTimeout(resizeTrain, 300));
   const W=()=>cv.width/DPR, H=()=>cv.height/DPR;
   function S(v){ return v*(H()/500); }
 
