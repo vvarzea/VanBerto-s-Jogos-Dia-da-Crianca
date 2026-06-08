@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0070)https://adaptive-game-ui.preview.emergentagent.com/download/index.html -->
+<!-- saved from url=(0062)https://linhas-cortas.preview.emergentagent.com/vanbertos.html -->
 <html lang="pt" class="pc-fit"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -339,6 +339,24 @@ body::before{
       overflow: visible !important;
       max-height: none !important;
     }
+  </style><style id="pc-scale-style">
+    html.pc-fit, body.pc-fit { overflow: hidden !important; }
+    body.pc-fit {
+      padding: 0 !important;
+      align-items: flex-start !important;
+      justify-content: flex-start !important;
+    }
+    body.pc-fit .modal-wrap {
+      width: 1400px !important;
+      height: auto !important;
+      max-width: none !important;
+      max-height: none !important;
+      margin: 0 !important;
+    }
+    body.pc-fit .games-section {
+      overflow: visible !important;
+      max-height: none !important;
+    }
   </style></head>
 <body class="pc-fit">
 
@@ -408,7 +426,7 @@ body::before{
 <div class="confetti-piece" style="left:77%;background:#c77dff;animation-duration:6.5s;animation-delay:4s;border-radius:50%;"></div>
 <div class="confetti-piece" style="left:91%;background:#ff6b35;animation-duration:7.5s;animation-delay:1s;border-radius:2px;"></div>
 
-<div class="modal-wrap" style="transform: translate(-50%, -50%) scale(1.17143); position: fixed; transform-origin: center center; top: 50%; left: 50%;">
+<div class="modal-wrap" style="position: fixed; top: 50%; left: 50%; transform-origin: center center; transform: translate(-50%, -50%) scale(1);">
   <div class="card">
 
     <!-- HERO -->
@@ -613,7 +631,7 @@ body::before{
 
 <!-- ROBOT FLUTUANTE -->
 <div class="robot-wrap">
-  <div class="vb-bubble show" id="vbBubble">Escolhe o teu jogo! 🚀</div>
+  <div class="vb-bubble show" id="vbBubble">O VanBerto's conta contigo! 🎯</div>
   <svg id="vb-main" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" role="button" tabindex="0" aria-label="VanBerto — clica para falar" class="bounce">
     <defs>
       <lineargradient id="bG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e5f2ff"></stop><stop offset="100%" stop-color="#bfdbfe"></stop></lineargradient>
@@ -733,22 +751,13 @@ document.getElementById('vb-main').addEventListener('click', () => {
       wrap.style.width = '';
       wrap.style.height = '';
     } else {
-      // ── PC: medir conteúdo natural e fazer caber TUDO no ecrã ──
+      // ── PC: escala responsiva com referência fixa 1920×1080 ──
+      // Fórmula: Math.min(innerWidth/1920, innerHeight/1080)
+      // Cap em 1 → nunca aumenta acima do tamanho real (evita corte topo/fundo)
       document.body.classList.add('pc-fit');
       document.documentElement.classList.add('pc-fit');
 
-      // Estado temporário para medir altura natural sem distorção
-      wrap.style.transform = 'none';
-      wrap.style.position = 'static';
-      wrap.style.top = '';
-      wrap.style.left = '';
-      void wrap.offsetWidth;
-      const natW = wrap.offsetWidth || DESIGN_W;
-      const natH = wrap.offsetHeight || REF_H;
-
-      // Escala que faz o conteúdo NATURAL caber sempre na janela
-      // (sem 0.98 de margem nem cap pela referência → aproveita 100% do ecrã)
-      const scale = Math.min(w / natW, h / natH);
+      const scale = Math.min(w / 1920, h / 1080, 1);
 
       wrap.style.position = 'fixed';
       wrap.style.top = '50%';
@@ -1188,4 +1197,5 @@ document.querySelectorAll('.game-card').forEach((c,i) => {
 
 
 <script defer="" src="./VanBerto&#39;s — Dia da Criança 🎉_files/v833ccba57c9e4d2798f2e76cebdd09a11778172276447(1)" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;7f7b0fd8732c4326aae4b9d58d5c514a&quot;,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+<script defer="" src="./VanBerto&#39;s — Dia da Criança 🎉_files/v833ccba57c9e4d2798f2e76cebdd09a11778172276447(2)" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;7f7b0fd8732c4326aae4b9d58d5c514a&quot;,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
 </body></html>
