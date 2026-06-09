@@ -2,16 +2,22 @@
 <!-- saved from url=(0062)https://linhas-cortas.preview.emergentagent.com/vanbertos.html -->
 <html lang="pt"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <title>VanBerto's — Dia da Criança 🎉</title>
 <link href="./VanBerto&#39;s — Dia da Criança 🎉_files/css2" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html,body{width:100%;height:100%;overflow:hidden;}
+html,body{width:100%;height:100dvh;overflow:hidden;}
 body{
   display:flex;align-items:center;justify-content:center;
   height:100dvh;
-  padding:min(1.5vh,16px) min(1.5vw,16px);
+  min-height:100dvh;
+  padding:
+    max(min(1.5vh,16px), env(safe-area-inset-top,0px))
+    max(min(1.5vw,16px), env(safe-area-inset-right,0px))
+    max(min(1.5vh,16px), env(safe-area-inset-bottom,0px))
+    max(min(1.5vw,16px), env(safe-area-inset-left,0px));
+  box-sizing:border-box;
   background:
     radial-gradient(ellipse at 15% 25%,rgba(255,107,53,0.35) 0%,transparent 55%),
     radial-gradient(ellipse at 85% 65%,rgba(80,60,200,0.30) 0%,transparent 55%),
@@ -65,7 +71,7 @@ body::before{
 .modal-wrap{
   position:relative;z-index:1;
   width:min(98vw,1400px);
-  max-height:calc(100dvh - min(3vh,32px));
+  max-height:calc(100dvh - max(min(3vh,32px), env(safe-area-inset-top,0px) + env(safe-area-inset-bottom,0px)));
   display:flex;flex-direction:column;
   isolation:isolate;
   cursor:default;
@@ -156,7 +162,7 @@ body::before{
 }
 
 /* ── ROBOT FLUTUANTE ── */
-.robot-wrap{position:fixed;bottom:.85rem;right:.85rem;z-index:600;display:flex;flex-direction:column;align-items:center;}
+.robot-wrap{position:fixed;bottom:calc(.85rem + env(safe-area-inset-bottom,0px));right:calc(.85rem + env(safe-area-inset-right,0px));z-index:600;display:flex;flex-direction:column;align-items:center;}
 .vb-bubble{
   background:linear-gradient(135deg,#2a0a4e,#1a0835);
   border:3px solid #ff6b35;
@@ -183,7 +189,7 @@ body::before{
 #vb-arm{transform-origin:65px 44px;animation:vbWave 1.5s ease-in-out infinite;}
 @keyframes vbBlink{0%,90%,100%{transform:scaleY(0)}95%{transform:scaleY(1)}}
 @keyframes vbWave{0%,100%{transform:rotate(0)}25%,75%{transform:rotate(-18deg)}}
-@media(max-width:480px){.robot-wrap{bottom:.45rem;right:.45rem;}#vb-main{width:52px;}.vb-bubble{max-width:155px;font-size:.72rem;}}
+@media(max-width:480px){.robot-wrap{bottom:calc(.45rem + env(safe-area-inset-bottom,0px));right:calc(.45rem + env(safe-area-inset-right,0px));}#vb-main{width:52px;}.vb-bubble{max-width:155px;font-size:.72rem;}}
 
 /* ── GAMES SECTION ── */
 .games-section{
@@ -192,8 +198,10 @@ body::before{
   display:flex;flex-direction:column;
   overflow-y:auto;
   overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
   scrollbar-width:thin;
   scrollbar-color:rgba(255,107,53,0.45) transparent;
+  max-height:calc(100dvh - 24px);
 }
 .games-section::-webkit-scrollbar{width:5px;}
 .games-section::-webkit-scrollbar-track{background:transparent;}
@@ -247,6 +255,8 @@ body::before{
   display:flex;flex-direction:column;align-items:center;gap:clamp(2px,0.4vh,6px);
   transition:transform 0.22s cubic-bezier(.34,1.56,.64,1),box-shadow 0.2s;
   position:relative;overflow:hidden;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
   box-shadow:
     0 0 0 2px var(--gc, #ff6b35),
     0 0 0 4px #ffd700,
@@ -298,7 +308,7 @@ body::before{
 
 /* Comboio canvas card */
 .game-card.comboio{flex-direction:column;padding:0;overflow:hidden;gap:0;text-align:left;}
-.train-canvas-dc{width:100%;height:auto;display:block;background:linear-gradient(180deg,#0a0318 0%,#130828 60%,#1a0a30 100%);}
+.train-canvas-dc{width:100% !important;height:auto;display:block;background:linear-gradient(180deg,#0a0318 0%,#130828 60%,#1a0a30 100%);touch-action:none;}
 .comboio-info{display:flex;flex-direction:column;gap:3px;padding:clamp(6px,1vh,12px) clamp(10px,1.5vw,18px);flex:1;}
 .comboio-info .game-desc{font-size:clamp(12px,min(0.8vw,1.1vh),13px);color:rgba(255,255,255,0.70);font-family:'Nunito',sans-serif;font-weight:700;line-height:1.3;}
 
@@ -319,12 +329,76 @@ body::before{
   .modal-hero{padding:6px 14px 5px;}
 }
 
+/* ── RESPONSIVIDADE EXTRA ── */
 
+/* Ecrãs muito estreitos (≤360px) */
+@media(max-width:360px){
+  .modal-hero{padding:6px 10px 4px;}
+  .modal-title{font-size:clamp(18px,7vw,26px);}
+  .modal-sub{font-size:10px;letter-spacing:0.8px;}
+  .hero-stats{gap:3px;}
+  .stat-badge{padding:2px 6px;font-size:10px;}
+  .games-section{padding:4px 8px 6px;}
+  .section-divider{font-size:11px;}
+  .game-name{font-size:12px;}
+  .game-tag{font-size:9px;}
+}
+
+/* Smartphones portrait (≤768px) */
+@media(max-width:768px){
+  .modal-wrap{width:min(100vw,100%);max-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));}
+  .card{border-radius:clamp(8px,2vw,14px);}
+  .games-grid-3{grid-template-columns:repeat(2,1fr);}
+  .game-card.destaque{gap:8px;padding:8px 10px;}
+  .game-card.destaque .card-icon{width:clamp(36px,10vw,52px);height:clamp(36px,10vw,52px);}
+  .game-card.destaque img.card-icon{width:clamp(36px,10vw,52px);height:clamp(36px,10vw,52px);}
+  .game-card.destaque .game-icon img{width:clamp(36px,10vw,52px);height:clamp(36px,10vw,52px);}
+  .game-card.destaque .game-name{font-size:13px;}
+  .game-card.destaque .game-desc{font-size:11px;}
+}
+
+/* Altura ≤460px (smartphones landscape) */
+@media(max-height:460px){
+  .hero-icon{display:none;}
+  .hero-stats{gap:3px;}
+  .modal-hero{padding:4px 12px 3px;}
+  .modal-title{font-size:clamp(16px,4vw,24px);}
+  .modal-sub{display:none;}
+  .stat-badge{padding:1px 6px;font-size:10px;}
+  .modal-footer{padding:3px 12px;}
+  .footer-icon{display:none;}
+  .games-section{padding:3px 10px 4px;}
+}
+
+/* Altura ≤620px — compactar moderadamente */
+@media(max-height:620px){
+  .modal-hero{padding:6px 16px 5px;}
+  .hero-icon{width:min(4.5vw,5vh,44px);height:min(4.5vw,5vh,44px);}
+  .modal-title{font-size:clamp(18px,min(2.8vw,3.8vh),36px);}
+  .games-section{padding:4px 16px 6px;}
+  .section-divider{margin:6px 0 4px;}
+}
+
+/* Landscape em dispositivos touch */
+@media(max-height:500px) and (orientation:landscape){
+  .modal-wrap{max-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));}
+  .games-grid-2,.games-grid-3{grid-template-columns:repeat(3,1fr);}
+  .game-card.destaque{flex-direction:row;}
+  .modal-footer{padding:2px 12px;}
+}
+
+/* fs-btn safe area */
+@media(max-width:820px){
+  #fs-btn{display:none;}
+}
 </style>
 <style id="fs-btn-style">
   /* ── BOTÃO ECRÃ INTEIRO ── */
   #fs-btn{
-    position:fixed; top:14px; right:14px; z-index:9999;
+    position:fixed;
+    top:max(14px, env(safe-area-inset-top, 0px) + 8px);
+    right:max(14px, env(safe-area-inset-right, 0px) + 8px);
+    z-index:9999;
     width:44px; height:44px; border-radius:50%;
     background:linear-gradient(135deg,#1a0828,#2a0e44);
     border:2px solid #ffd700;
@@ -334,6 +408,7 @@ body::before{
     cursor:pointer; padding:0;
     transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
     -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
   }
   #fs-btn:hover{
     transform:scale(1.10);
@@ -741,8 +816,9 @@ document.getElementById('vb-main').addEventListener('click', () => {
   }
 
   function _doApply() {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
+    const vvp = window.visualViewport;
+    const vw  = vvp ? vvp.width  : window.innerWidth;
+    const vh  = vvp ? vvp.height : window.innerHeight;
     const wrap = document.querySelector('.modal-wrap');
     if (!wrap) return;
 
@@ -784,7 +860,8 @@ document.getElementById('vb-main').addEventListener('click', () => {
   }
   window.addEventListener('load', applyPcScale);
   window.addEventListener('resize', applyPcScale);
-  window.addEventListener('orientationchange', applyPcScale);
+  window.addEventListener('orientationchange', () => { setTimeout(applyPcScale, 80); setTimeout(applyPcScale, 300); });
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', applyPcScale);
 
   /* Fullscreen: re-escala após o browser actualizar as dimensões */
   function onFsChange() {
