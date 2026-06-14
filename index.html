@@ -71,6 +71,7 @@ body::before{
 .modal-wrap{
   position:relative;z-index:1;
   width:min(98vw,1400px);
+  height:calc(100dvh - max(min(3vh,32px), env(safe-area-inset-top,0px) + env(safe-area-inset-bottom,0px)));
   max-height:calc(100dvh - max(min(3vh,32px), env(safe-area-inset-top,0px) + env(safe-area-inset-bottom,0px)));
   display:flex;flex-direction:column;
   isolation:isolate;
@@ -80,7 +81,7 @@ body::before{
   background:linear-gradient(155deg,#1a0828,#0e0520);
   border-radius:clamp(12px,1.5vw,24px);overflow:hidden;
   display:flex;flex-direction:column;
-  flex:1;min-height:0;overflow:clip;
+  flex:1 1 0;min-height:0;overflow:clip;
   box-shadow:
     0 0 0 3px #ff6b35, 0 0 0 6px #ffd700, 10px 10px 0 rgba(0,0,0,0.45), 0 0 60px rgba(255,107,53,0.25),
     0 0 50px rgba(100,80,255,0.15),
@@ -194,14 +195,14 @@ body::before{
 /* ── GAMES SECTION ── */
 .games-section{
   padding:min(0.6vh,6px) min(1.8vw,24px) min(0.8vh,8px);
-  flex:1;min-height:0;
+  flex:1 1 0;
+  min-height:0;
   display:flex;flex-direction:column;
   overflow-y:auto;
   overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
   scrollbar-width:thin;
   scrollbar-color:rgba(255,107,53,0.45) transparent;
-  max-height:calc(100dvh - 24px);
 }
 .games-section::-webkit-scrollbar{width:5px;}
 .games-section::-webkit-scrollbar-track{background:transparent;}
@@ -308,8 +309,8 @@ body::before{
 
 /* Comboio canvas card */
 .game-card.comboio{flex-direction:column;padding:0;overflow:hidden;gap:0;text-align:left;}
-.train-canvas-dc{width:100% !important;height:auto;display:block;background:linear-gradient(180deg,#0a0318 0%,#130828 60%,#1a0a30 100%);touch-action:none;}
-.comboio-info{display:flex;flex-direction:column;gap:3px;padding:clamp(6px,1vh,12px) clamp(10px,1.5vw,18px);flex:1;}
+.train-canvas-dc{width:100% !important;max-height:160px;height:auto;display:block;background:linear-gradient(180deg,#0a0318 0%,#130828 60%,#1a0a30 100%);touch-action:none;}
+.comboio-info{display:flex;flex-direction:column;gap:3px;padding:clamp(4px,0.7vh,10px) clamp(10px,1.5vw,18px);flex:1;}
 .comboio-info .game-desc{font-size:clamp(12px,min(0.8vw,1.1vh),13px);color:rgba(255,255,255,0.70);font-family:'Nunito',sans-serif;font-weight:700;line-height:1.3;}
 
 /* ── FOOTER ── */
@@ -770,15 +771,13 @@ document.getElementById('vb-main').addEventListener('click', () => {
 });
 
 /* ──────────────────────────────────────────────────────────────
-   ESCALA RESPONSIVA PC  (referência 1920×1080)
-   - Só atua quando window.innerWidth >= 768 (PC / janela pequena de PC)
-   - NÃO altera o comportamento em smartphone (< 768 px)
-   - NÃO altera a lógica/mecânica do jogo, apenas a escala visual
+   ESCALA RESPONSIVA — funciona em qualquer tamanho de ecrã
+   - Modo smartphone (< 768 px): CSS responsivo nativo
+   - Modo PC / portátil (>= 768 px): scale proporcional ao ecrã real
    ────────────────────────────────────────────────────────────── */
 (function(){
   const DESIGN_W    = 1400;   // largura natural do modal em modo PC
-  const REF_W       = 1920;   // resolução de referência largura
-  const REF_H       = 1080;   // resolução de referência altura
+  const DESIGN_H    = 1080;   // altura de design de referência
   const PC_MIN      = 768;    // breakpoint smartphone/PC
 
   /* ── CSS estático para modo pc-fit ── */
@@ -792,8 +791,8 @@ document.getElementById('vb-main').addEventListener('click', () => {
     html.pc-fit, body.pc-fit { overflow: hidden !important; }
     body.pc-fit {
       padding: 0 !important;
-      align-items: flex-start !important;
-      justify-content: flex-start !important;
+      align-items: center !important;
+      justify-content: center !important;
     }
     body.pc-fit .modal-wrap {
       width: ${DESIGN_W}px !important;
@@ -802,6 +801,8 @@ document.getElementById('vb-main').addEventListener('click', () => {
     }
     body.pc-fit .games-section {
       overflow-y: auto !important;
+      flex: 1 1 0 !important;
+      min-height: 0 !important;
     }
   `;
 
@@ -827,16 +828,28 @@ document.getElementById('vb-main').addEventListener('click', () => {
       document.body.classList.remove('pc-fit');
       document.documentElement.classList.remove('pc-fit');
       wrap.style.cssText = '';
+      wrap.style.removeProperty('height');
+      wrap.style.removeProperty('max-height');
     } else {
-      /* ── PC: escala proporcional, nunca corta ── */
+      /* ── PC / PORTÁTIL: escala proporcional ao ecrã real ── */
       document.body.classList.add('pc-fit');
       document.documentElement.classList.add('pc-fit');
 
-      /* escala: menor dos dois rácios, sem ultrapassar 1 (não amplia) */
-      const scale = Math.min(vw / REF_W, vh / REF_H, 1);
+      /* Margem para não colar às bordas */
+      const HPAD = 24;   // margem horizontal
+      const VPAD = 24;   // margem vertical
 
-      /* altura máxima visível após escala */
-      const maxH = Math.floor(vh / scale);
+      const availW = vw - HPAD * 2;
+      const availH = vh - VPAD * 2;
+
+      /* Scale: baseado na largura (nunca > 1)
+         A altura preenche sempre todo o espaço disponível do ecrã */
+      const scaleW = availW / DESIGN_W;
+      const scale  = Math.min(scaleW, 1);
+
+      /* Altura no espaço de design: availH / scale
+         → depois de escalado ocupa exactamente availH píxeis no ecrã */
+      const wrapH = Math.floor(availH / scale);
 
       wrap.style.position        = 'fixed';
       wrap.style.top             = '50%';
@@ -844,8 +857,8 @@ document.getElementById('vb-main').addEventListener('click', () => {
       wrap.style.transformOrigin = 'center center';
       wrap.style.transform       = `translate(-50%, -50%) scale(${scale})`;
       wrap.style.width           = DESIGN_W + 'px';
-      wrap.style.maxHeight       = maxH + 'px';
-      wrap.style.height          = 'auto';
+      wrap.style.height          = wrapH + 'px';
+      wrap.style.maxHeight       = wrapH + 'px';
     }
 
     /* Notifica o canvas do comboio para recalcular */
@@ -934,11 +947,14 @@ document.querySelectorAll('.game-card').forEach((c,i) => {
   const DPR = Math.min(window.devicePixelRatio||1,2);
 
   function resizeTrain(){
-    const w = Math.max(cv.parentElement.clientWidth||0, 320);
-    const h = Math.max(Math.round(w*0.15), 80);
-    cv.width = w*DPR; cv.height = h*DPR;
-    cv.style.width = w+'px'; cv.style.height = h+'px';
-    ctx.setTransform(DPR,0,0,DPR,0,0);
+    const w    = Math.max(cv.parentElement.clientWidth || 0, 280);
+    /* altura proporcional à largura: 14% da largura, entre 60px e 160px */
+    const h    = Math.max(Math.min(Math.round(w * 0.14), 160), 60);
+    cv.width  = w * DPR;
+    cv.height = h * DPR;
+    cv.style.width  = w + 'px';
+    cv.style.height = h + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   }
   resizeTrain();
   // Re-aplicar depois do layout estar estável (crítico em smartphone e em resize de PC)
