@@ -70,7 +70,7 @@ body::before{
 /* ── WRAP & CARD ── */
 .modal-wrap{
   position:relative;z-index:1;
-  width:min(98vw,1400px);
+  width:min(98vw,1100px);
   height:calc(100dvh - max(min(3vh,32px), env(safe-area-inset-top,0px) + env(safe-area-inset-bottom,0px)));
   max-height:calc(100dvh - max(min(3vh,32px), env(safe-area-inset-top,0px) + env(safe-area-inset-bottom,0px)));
   display:flex;flex-direction:column;
@@ -128,7 +128,7 @@ body::before{
 
 .modal-title{
   font-family:'Fredoka One',cursive;
-  font-size:clamp(22px,min(3.2vw,4.5vh),46px);
+  font-size:clamp(28px,min(3.2vw,4.5vh),46px);
   background:linear-gradient(90deg,#ff6b35,#ffd700,#7ee8ff,#ff6b35);
   background-size:300% auto;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
@@ -139,7 +139,7 @@ body::before{
 @keyframes titleShimmer{0%{background-position:0% center;}100%{background-position:300% center;}}
 
 .modal-sub{
-  color:#FFD700;font-size:clamp(11px,min(1vw,1.4vh),13px);
+  color:#FFD700;font-size:clamp(13px,min(1vw,1.4vh),13px);
   font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
   margin-bottom:min(0.8vh,8px);position:relative;z-index:1;
   opacity:0.85;
@@ -157,7 +157,7 @@ body::before{
   border:1.5px solid rgba(255,215,0,0.60);
   border-radius:20px;padding:clamp(2px,0.4vh,6px) clamp(6px,0.8vw,14px);
   font-family:'Fredoka One',cursive;
-  font-size:clamp(11px,min(0.9vw,1.3vh),13px);color:#FFD700;
+  font-size:clamp(12px,min(0.9vw,1.3vh),13px);color:#FFD700;
   letter-spacing:0.3px;white-space:nowrap;
   box-shadow:0 0 10px rgba(255,215,0,0.12);
 }
@@ -212,7 +212,7 @@ body::before{
 /* Section divider */
 .section-divider{
   font-family:'Fredoka One',cursive;color:#FFD700;
-  font-size:clamp(12px,min(0.9vw,1.2vh),13px);letter-spacing:1.5px;text-transform:uppercase;
+  font-size:clamp(13px,min(0.9vw,1.2vh),13px);letter-spacing:1.5px;text-transform:uppercase;
   margin:min(1vh,10px) 0 min(0.6vh,6px);
   display:flex;align-items:center;gap:8px;
   flex-shrink:0;
@@ -271,17 +271,17 @@ body::before{
 .game-card:hover .card-icon{transform:scale(1.15) rotate(-4deg);}
 
 .game-emoji{
-  font-size:clamp(20px,min(2.8vw,3.8vh),46px);line-height:1;
+  font-size:clamp(24px,min(2.8vw,3.8vh),46px);line-height:1;
   transition:transform 0.22s cubic-bezier(.34,1.56,.64,1);
   filter:drop-shadow(0 3px 8px rgba(0,0,0,0.4));
 }
 .game-name{
   font-family:'Fredoka One',cursive;
-  font-size:clamp(13px,min(1vw,1.3vh),14px);color:rgba(255,255,255,1);line-height:1.2;
+  font-size:clamp(15px,min(1vw,1.3vh),14px);color:rgba(255,255,255,1);line-height:1.2;
 }
 .game-tag{
   display:inline-block;background:var(--gc);color:#fff;
-  font-size:clamp(10px,min(0.75vw,1vh),11px);font-weight:900;letter-spacing:0.5px;text-transform:uppercase;
+  font-size:clamp(11px,min(0.75vw,1vh),11px);font-weight:900;letter-spacing:0.5px;text-transform:uppercase;
   padding:2px 7px;border-radius:20px;box-shadow:0 2px 8px var(--gc-glow);margin-top:1px;
 }
 .game-tag.pink{background:rgba(255,107,53,0.18);color:#ff9a6c;border:1px solid rgba(255,100,160,0.40);box-shadow:0 2px 10px rgba(255,100,160,0.25);}
@@ -289,10 +289,10 @@ body::before{
 /* destaque card (horizontal) */
 .game-card.destaque{flex-direction:row;gap:clamp(8px,1.2vw,18px);padding:clamp(6px,min(0.9vw,1.1vh),14px) clamp(10px,1.5vw,20px);justify-content:flex-start;text-align:left;}
 .game-card.destaque .game-info{display:flex;flex-direction:column;gap:2px;flex:1;}
-.game-card.destaque .game-desc{font-size:clamp(12px,min(0.8vw,1.1vh),13px);color:rgba(255,255,255,0.70);font-family:'Nunito',sans-serif;font-weight:700;line-height:1.3;}
+.game-card.destaque .game-desc{font-size:clamp(13px,min(0.8vw,1.1vh),13px);color:rgba(255,255,255,0.70);font-family:'Nunito',sans-serif;font-weight:700;line-height:1.3;}
 .game-card.destaque .game-tag{align-self:flex-start;}
-.game-card.destaque .game-emoji{font-size:clamp(22px,min(2.8vw,3.8vh),46px);}
-.game-card.destaque .game-name{font-size:clamp(14px,min(1.2vw,1.6vh),18px);}
+.game-card.destaque .game-emoji{font-size:clamp(26px,min(2.8vw,3.8vh),46px);}
+.game-card.destaque .game-name{font-size:clamp(16px,min(1.2vw,1.6vh),18px);}
 
 /* ── CARD ICONS (SVG) ── */
 .card-icon{
@@ -320,7 +320,7 @@ body::before{
   display:flex;align-items:center;justify-content:space-between;
   flex-shrink:0;
 }
-.footer-credit{font-family:'Fredoka One',cursive;color:rgba(255,255,255,0.28);font-size:clamp(11px,min(0.8vw,1.1vh),13px);letter-spacing:0.3px;}
+.footer-credit{font-family:'Fredoka One',cursive;color:rgba(255,255,255,0.28);font-size:clamp(12px,min(0.8vw,1.1vh),13px);letter-spacing:0.3px;}
 .footer-icon{font-size:clamp(12px,min(1.2vw,1.8vh),20px);animation:vbFloat 2.5s ease-in-out infinite;}
 
 /* Ecrãs muito baixos: esconder ícone e stats do hero */
@@ -514,10 +514,11 @@ body::before{
 
       <!-- Mini stats -->
       <div class="hero-stats">
-        <span class="stat-badge">🎮 8 jogos</span>
+        <span class="stat-badge">🎮 10 jogos</span>
         <span class="stat-badge">🏎️ Corrida</span>
         <span class="stat-badge">🧩 Puzzles</span>
         <span class="stat-badge">🌍 Mundo</span>
+        <span class="stat-badge">🧠 Memória</span>
       </div>
 
     </div>
@@ -661,9 +662,72 @@ body::before{
       </div>
 
 
+      <div class="section-divider">🧠 Memória &amp; Observação <span class="section-count">2 jogos</span></div>
+      <div class="games-grid games-grid-2">
+
+        <a class="game-card destaque" href="https://vvarzea.github.io/VanBerto-s-Dia-da-Crianca-Memoria/" target="_blank" style="--gc: #06b6d4; --gc-glow: rgba(6,182,212,0.55); opacity: 1; transform: translateY(0px); transition: opacity 0.4s 0.49s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.49s, box-shadow 0.2s, border-color 0.2s;">
+          <div class="game-icon">
+            <svg class="card-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <lineargradient id="mem_dc_bg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#0e7490"></stop>
+                  <stop offset="100%" stop-color="#164e63"></stop>
+                </lineargradient>
+              </defs>
+              <rect width="100" height="100" rx="20" fill="url(#mem_dc_bg)"></rect>
+              <rect x="12" y="12" width="34" height="34" rx="5" fill="#06b6d4" opacity=".85"></rect>
+              <text x="29" y="31" font-size="18" text-anchor="middle" dominant-baseline="central" font-family="Fredoka One,cursive">🎈</text>
+              <rect x="54" y="12" width="34" height="34" rx="5" fill="rgba(6,182,212,0.25)" stroke="#22d3ee" stroke-width="2" stroke-dasharray="5,3"></rect>
+              <text x="71" y="31" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#67e8f9" font-family="Fredoka One,cursive">?</text>
+              <rect x="12" y="54" width="34" height="34" rx="5" fill="rgba(6,182,212,0.25)" stroke="#22d3ee" stroke-width="2" stroke-dasharray="5,3"></rect>
+              <text x="29" y="73" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#67e8f9" font-family="Fredoka One,cursive">?</text>
+              <rect x="54" y="54" width="34" height="34" rx="5" fill="#06b6d4" opacity=".85"></rect>
+              <text x="71" y="73" font-size="18" text-anchor="middle" dominant-baseline="central" font-family="Fredoka One,cursive">🎈</text>
+            </svg>
+          </div>
+          <div class="game-info">
+            <div class="game-name">Jogo da Memória</div>
+            <div class="game-desc">Encontra os pares iguais e treina a memória a celebrar o Dia da Criança!</div>
+            <span class="game-tag" style="background:#06b6d4;box-shadow:0 2px 8px rgba(6,182,212,0.40);">Memória</span>
+          </div>
+        </a>
+
+        <a class="game-card destaque" href="https://vvarzea.github.io/VanBerto-s-Dia-da-Crianca-Diferencas/" target="_blank" style="--gc: #f59e0b; --gc-glow: rgba(245,158,11,0.55); opacity: 1; transform: translateY(0px); transition: opacity 0.4s 0.56s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.56s, box-shadow 0.2s, border-color 0.2s;">
+          <div class="game-icon">
+            <svg class="card-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <lineargradient id="dif_dc_bg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#92400e"></stop>
+                  <stop offset="100%" stop-color="#451a03"></stop>
+                </lineargradient>
+              </defs>
+              <rect width="100" height="100" rx="20" fill="url(#dif_dc_bg)"></rect>
+              <!-- Imagem esquerda -->
+              <rect x="8" y="20" width="38" height="60" rx="6" fill="#fbbf24" opacity=".15" stroke="#fbbf24" stroke-width="1.5"></rect>
+              <circle cx="22" cy="40" r="7" fill="#fbbf24" opacity=".80"></circle>
+              <rect x="14" y="54" width="25" height="5" rx="2" fill="#fbbf24" opacity=".65"></rect>
+              <rect x="14" y="63" width="18" height="5" rx="2" fill="#fbbf24" opacity=".45"></rect>
+              <!-- Imagem direita (com diferença) -->
+              <rect x="54" y="20" width="38" height="60" rx="6" fill="#fbbf24" opacity=".15" stroke="#fbbf24" stroke-width="1.5"></rect>
+              <circle cx="68" cy="40" r="7" fill="#f59e0b" opacity=".80"></circle>
+              <rect x="60" y="54" width="25" height="5" rx="2" fill="#fbbf24" opacity=".65"></rect>
+              <!-- diferença: linha extra com círculo -->
+              <circle cx="75" cy="67" r="4" fill="#ef4444" opacity=".90"></circle>
+              <circle cx="75" cy="67" r="6" fill="none" stroke="#ffd700" stroke-width="2"></circle>
+            </svg>
+          </div>
+          <div class="game-info">
+            <div class="game-name">Descobre as Diferenças</div>
+            <div class="game-desc">Observa bem as duas imagens e encontra todas as diferenças escondidas!</div>
+            <span class="game-tag" style="background:#f59e0b;box-shadow:0 2px 8px rgba(245,158,11,0.40);">Observação</span>
+          </div>
+        </a>
+
+      </div>
+
       <div class="section-divider">🧩 Puzzle <span class="section-count">1 jogo</span></div>
       <div class="games-grid games-grid-1">
-        <a class="game-card destaque" href="https://vvarzea.github.io/VanBerto-s-PuzzlesDiadaCrianca/" target="_blank" style="--gc: #a855f7; --gc-glow: rgba(168,85,247,0.50); opacity: 1; transform: translateY(0px); transition: opacity 0.4s 0.49s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.49s, box-shadow 0.2s, border-color 0.2s;">
+        <a class="game-card destaque" href="https://vvarzea.github.io/VanBerto-s-PuzzlesDiadaCrianca/" target="_blank" style="--gc: #a855f7; --gc-glow: rgba(168,85,247,0.50); opacity: 1; transform: translateY(0px); transition: opacity 0.4s 0.63s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.63s, box-shadow 0.2s, border-color 0.2s;">
           <div class="game-icon">
             <svg class="card-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
               <defs>
@@ -695,6 +759,7 @@ body::before{
           </div>
         </a>
       </div>
+
     </div><!-- /games-section -->
     <!-- FOOTER -->
     <div class="modal-footer">
@@ -736,7 +801,7 @@ const msgs = [
   "Feliz Dia da Criança! 🎉",
   "Escolhe o teu jogo! 🚀",
   "A brincar também se aprende! 🌟",
-  "8 jogos especiais para ti! 🎮",
+  "10 jogos especiais para ti! 🎮",
   "Corrida, mundo e puzzles! 🏎️🌍",
   "Sopa de letras e muito mais! 🧩",
   "O comboio está a partir! 🚂",
@@ -776,7 +841,7 @@ document.getElementById('vb-main').addEventListener('click', () => {
    - Modo PC / portátil (>= 768 px): scale proporcional ao ecrã real
    ────────────────────────────────────────────────────────────── */
 (function(){
-  const DESIGN_W    = 1400;   // largura natural do modal em modo PC
+  const DESIGN_W    = 1100;   // largura natural do modal em modo PC (reduzida para portáteis ficarem legíveis)
   const DESIGN_H    = 1080;   // altura de design de referência
   const PC_MIN      = 768;    // breakpoint smartphone/PC
 
@@ -795,7 +860,7 @@ document.getElementById('vb-main').addEventListener('click', () => {
       justify-content: center !important;
     }
     body.pc-fit .modal-wrap {
-      width: ${DESIGN_W}px !important;
+      width: 1100px !important;
       max-width: none !important;
       margin: 0 !important;
     }
