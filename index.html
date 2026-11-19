@@ -471,7 +471,7 @@ body::before{display:none;}
 @supports not (background:color-mix(in srgb,red 50%,white)){.game-icon-tile{background:#fff;}}
 .game-card.comboio .train-canvas{height:auto;}
 @media(max-width:400px){.game-icon-tile.img{width:84px;height:84px;}}
-.balloon{z-index:0;opacity:.9;}  /* os balões passam por trás dos cartões, sem tapar o texto */
+.balloon{z-index:2;opacity:.9;pointer-events:none;}  /* os balões passam por cima dos cartões; não bloqueiam os cliques */
 /* botão ecrã inteiro (PC) no estilo da Central */
 #fs-btn{position:fixed;top:max(14px,env(safe-area-inset-top,0px) + 8px);right:max(14px,env(safe-area-inset-right,0px) + 8px);z-index:700;width:44px;height:44px;border-radius:50%;background:#fff;border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;touch-action:manipulation;transition:transform .08s,box-shadow .08s,background .15s;}
 #fs-btn:hover{background:#fffbea;}
